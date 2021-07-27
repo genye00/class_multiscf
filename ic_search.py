@@ -7,12 +7,12 @@ from math import exp, expm1, log1p, tanh, atanh, sqrt, cosh, sinh
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import root_scalar, minimize_scalar, root
-from random import random
 
 
 # the MCMC parameters are scf_f and ln(1+z_c)
 # this code shoots for scalar field initial condition (phi_i,V_0) which
 # reproduces scf_f at z_c
+# not very precise but good enough
 
 ###################
 # add support for supergravity potential
