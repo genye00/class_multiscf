@@ -2792,7 +2792,10 @@ int background_initial_conditions(
         }
         else
         {
-            printf("Not using attractor initial conditions\n");
+            if(pba->background_verbose > 0)
+            {
+                printf("Not using attractor initial conditions\n");
+            }
             /** - --> If no attractor initial conditions are assigned, gets the provided ones. */
             pvecback_integration[pba->index_bi_phi_scf] = pba->phi_ini_scf;
             pvecback_integration[pba->index_bi_phi_prime_scf] = pba->phi_prime_ini_scf;
