@@ -636,7 +636,10 @@ cdef class Class:
                 raise CosmoSevereError(self.le.error_message)
             for flag, index, name in has_flags:
                 if name in spectra:
-                    cl[name][ell] = lcl[index]
+                    if name == 'pp' and self.le.Cl_pp != NULL:
+                        cl['pp'][ell] = self.le.Cl_pp[ell]
+                    else:
+                        cl[name][ell] = lcl[index]
         cl['ell'] = np.arange(lmax+1)
 
         free(lcl)
