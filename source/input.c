@@ -1933,6 +1933,9 @@ int input_read_parameters_general(struct file_content * pfc,
             class_read_double("early/late isw redshift", ppt->eisw_lisw_split_z); //Deprecated parameter
             class_read_double("early_late_isw_redshift", ppt->eisw_lisw_split_z);
         }
+        /** 1.a.2) Rescale the late or early isw */
+        class_read_double("A_eisw",ppt->A_eisw);
+        class_read_double("A_lisw",ppt->A_lisw);
     }
 
     /** 1.b) Obsevable number count fluctuation spectrum */
@@ -6065,6 +6068,9 @@ int input_default_params(struct background *pba,
     ppt->switch_pol = 1;
     /** 1.a.1) Split value of redshift z at which the isw is considered as late or early */
     ppt->eisw_lisw_split_z = 120;
+    /** 1.a.2) Rescale the late or early isw */
+    ppt->A_eisw = 1;
+    ppt->A_lisw = 1;
     /** 1.b) 'nCl' (or 'dCl') case */
     ppt->has_nc_density = _FALSE_;
     ppt->has_nc_rsd = _FALSE_;

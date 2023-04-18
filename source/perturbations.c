@@ -8769,7 +8769,7 @@ int perturbations_sources(
     double a_prime_over_a = 0.; /* (a'/a) */
     double a_prime_over_a_prime = 0.; /* (a'/a)' */
     double w_fld, dw_over_da_fld, integral_fld;
-    int switch_isw = 1;
+    double switch_isw = 1;
 
     double a, a2, f_dr;
 
@@ -8874,13 +8874,21 @@ int perturbations_sources(
         {
 
             /* check whether integrated Sachs-Wolf term should be included */
-            if((ppt->switch_eisw == 0) && (z >= ppt->eisw_lisw_split_z))
-            {
+            if (z >= ppt->eisw_lisw_split_z){
+                if (ppt->switch_eisw == 0){
                 switch_isw = 0;
+                }
+                else{
+                switch_isw = ppt->A_eisw;
+                }
             }
-            if((ppt->switch_lisw == 0) && (z < ppt->eisw_lisw_split_z))
-            {
-                switch_isw = 0;
+            if (z < ppt->eisw_lisw_split_z) {
+                if (ppt->switch_lisw == 0){
+                switch_isw=0;
+                }
+                else{
+                switch_isw = ppt->A_lisw;
+                }
             }
 
             /* newtonian gauge: simplest form, not efficient numerically */
