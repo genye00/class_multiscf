@@ -5417,6 +5417,15 @@ int input_read_parameters_lensing(struct file_content * pfc,
         class_read_double("lcmb_pivot", ptr->lcmb_pivot);
     }
 
+    int entries_read;
+    class_call(parser_read_list_of_doubles(pfc,"Cl_pp",&entries_read,&(ple->Cl_pp),&flag1,errmsg),
+                errmsg,
+                errmsg);
+    if (flag1 == _TRUE_) {
+        ple->Cl_pp[0] = entries_read;  // l=0 will never be used
+    }
+    // printf("entries_read: %d, ple->Cl_pp: %p\n", entries_read, ple->Cl_pp);
+
     return _SUCCESS_;
 
 }
@@ -6471,6 +6480,7 @@ int input_default_params(struct background *pba,
 
     /** 1) Lensing */
     ple->has_lensed_cls = _FALSE_;
+    ple->Cl_pp = NULL;
 
     /** 2) Should the lensed spectra be rescaled? */
     ptr->lcmb_rescale = 1.;

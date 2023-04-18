@@ -444,6 +444,45 @@ cdef class Class:
         # following functions are only to output the desired numbers
         return
 
+    def recompute_lensing(self, np.ndarray[DTYPE_t,ndim=1] clpp):
+        cdef ErrorMsg errmsg
+        cdef short lensflag_old
+        cdef int cl_size
+
+        # self._pars['Cl_pp']=','.join(clpp.astype(str))
+        # self._fillparfile()
+
+        if "lensing" in self.ncp:
+            lensing_free(&self.le)
+
+        # directly write to le.Cl_pp here, avoid calling shooting in input_read_from_file
+        cl_size = len(clpp)
+        self.le.Cl_pp = <double*> calloc(cl_size, sizeof(double))
+        for ell from 0<=ell<cl_size:
+            self.le.Cl_pp[ell] = clpp[ell]
+        self.le.Cl_pp[0] = <double> cl_size
+
+        # if input_read_from_file(&self.fc, &self.pr, &self.ba, &self.th,
+        #                         &self.pt, &self.tr, &self.pm, &self.hr,
+        #                         &self.fo, &self.le, &self.sd, &self.op, errmsg) == _FAILURE_:
+        #     raise CosmoSevereError(errmsg)
+        # self.ncp.add("input")
+
+        lensflag_old = self.le.has_lensed_cls
+        self.le.has_lensed_cls = _TRUE_
+        if lensing_init(&(self.pr), &(self.pt), &(self.hr),
+                        &(self.fo), &(self.le)) == _FAILURE_:
+            # self.struct_cleanup()
+            lensing_free(&self.le)
+            self.le.has_lensed_cls = lensflag_old
+            self.computed = True
+            self.allocated = True
+            raise CosmoComputationError(self.le.error_message)
+        self.ncp.add("lensing")
+        self.le.has_lensed_cls = lensflag_old
+        self.computed = True
+        self.allocated = True
+    
     def raw_cl(self, lmax=-1, nofail=False):
         """
         raw_cl(lmax=-1, nofail=False)
