@@ -17,6 +17,7 @@
 
 #include "lensing.h"
 #include <time.h>
+#include <assert.h>
 
 /**
  * Anisotropy power spectra \f$ C_l\f$'s for all types, modes and initial conditions.
