@@ -457,7 +457,9 @@ cdef class Class:
 
         # directly write to le.Cl_pp here, avoid calling shooting in input_read_from_file
         cl_size = len(clpp)
-        self.le.Cl_pp = <double*> calloc(cl_size, sizeof(double))
+        if self.le.Cl_pp != NULL:
+            free(self.le.Cl_pp)
+        self.le.Cl_pp = <double*> malloc(cl_size*sizeof(double))
         for ell from 0<=ell<cl_size:
             self.le.Cl_pp[ell] = clpp[ell]
         self.le.Cl_pp[0] = <double> cl_size
