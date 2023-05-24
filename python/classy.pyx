@@ -1455,7 +1455,7 @@ cdef class Class:
 
         return z
 
-    def Hubble(self, z):
+    def Hubble(self, z, der=False):
         """
         Hubble(z)
 
@@ -1479,7 +1479,10 @@ cdef class Class:
         if background_at_tau(&self.ba,tau,long_info,inter_normal,&last_index,pvecback)==_FAILURE_:
             raise CosmoSevereError(self.ba.error_message)
 
-        H = pvecback[self.ba.index_bg_H]
+        if der:
+            H = pvecback(self.ba.index_bg_H_prime)
+        else:
+            H = pvecback[self.ba.index_bg_H]
 
         free(pvecback)
 
