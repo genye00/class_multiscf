@@ -163,6 +163,8 @@ struct perturbations
   int switch_dop;  /**< in temperature calculation, do we want to include the Doppler term? */
   int switch_pol;  /**< in temperature calculation, do we want to include the polarization-related term? */
   double eisw_lisw_split_z; /**< at which redshift do we define the cut between eisw and lisw ?*/
+  double A_eisw;  /**< rescale the late eisw */
+  double A_lisw;  /**< rescale the late lisw */
 
   int store_perturbations;  /**< Do we want to store perturbations? */
   int k_output_values_num;       /**< Number of perturbation outputs (default=0) */

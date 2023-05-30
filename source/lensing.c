@@ -17,6 +17,7 @@
 
 #include "lensing.h"
 #include <time.h>
+#include <assert.h>
 
 /**
  * Anisotropy power spectra \f$ C_l\f$'s for all types, modes and initial conditions.
@@ -470,7 +471,13 @@ int lensing_init(
                phr->error_message,
                ple->error_message);
     cl_tt[l] = cl_unlensed[ple->index_lt_tt];
-    cl_pp[l] = cl_unlensed[ple->index_lt_pp];
+    if (ple->Cl_pp != NULL) {
+      assert(l <= ple->Cl_pp[0]);
+      cl_pp[l] = ple->Cl_pp[l];
+    }
+    else{
+      cl_pp[l] = cl_unlensed[ple->index_lt_pp];
+    }
     if (ple->has_te==_TRUE_) {
       cl_te[l] = cl_unlensed[ple->index_lt_te];
     }
@@ -814,6 +821,8 @@ int lensing_free(
     free(ple->cl_lens);
     free(ple->ddcl_lens);
     free(ple->l_max_lt);
+    if (ple->Cl_pp != NULL)
+      free(ple->Cl_pp);
 
   }
 

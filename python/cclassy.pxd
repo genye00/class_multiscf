@@ -290,6 +290,7 @@ cdef extern from "class.h":
         int has_lensed_cls
         int l_lensed_max
         int l_unlensed_max
+        double * Cl_pp
         ErrorMsg error_message
 
     cdef struct fourier:

@@ -76,6 +76,7 @@ struct lensing {
   double * cl_lens; /**< table of anisotropy spectra for each
 			   multipole and types,
 			   cl[index_l * ple->lt_size + index_lt] */
+  double * Cl_pp;   /* custom power spectrum of the lensing potential */
 
   double * ddcl_lens; /**< second derivatives for interpolation */
 
