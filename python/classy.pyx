@@ -2062,6 +2062,10 @@ cdef class Class:
                 value = self.sd.sd_parameter_table[1]
             elif name == 'mu_sd':
                 value = self.sd.sd_parameter_table[2]
+            elif name == 'pkz_dr_input':
+                value = self.Hubble(5)
+            elif name == 'pkz_H_input':
+                value = self.comoving_distance(5)
             else:
                 raise CosmoSevereError("%s was not recognized as a derived parameter" % name)
             derived[name] = value
