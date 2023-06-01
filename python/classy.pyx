@@ -1480,7 +1480,7 @@ cdef class Class:
             raise CosmoSevereError(self.ba.error_message)
 
         if der:
-            H = pvecback(self.ba.index_bg_H_prime)
+            H = pvecback[self.ba.index_bg_H_prime]
         else:
             H = pvecback[self.ba.index_bg_H]
 
@@ -2062,9 +2062,9 @@ cdef class Class:
                 value = self.sd.sd_parameter_table[1]
             elif name == 'mu_sd':
                 value = self.sd.sd_parameter_table[2]
-            elif name == 'pkz_dr_input':
-                value = self.Hubble(5)
             elif name == 'pkz_H_input':
+                value = self.Hubble(5)
+            elif name == 'pkz_dr_input':
                 value = self.comoving_distance(5)
             else:
                 raise CosmoSevereError("%s was not recognized as a derived parameter" % name)
